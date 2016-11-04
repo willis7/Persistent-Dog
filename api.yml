@@ -1,0 +1,63 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Release Service
+  description: REST client for Release API
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /releases:
+    get:
+      summary: All Release Information
+      description: |
+        The Releases endpoint returns information about all releases which have been
+        recorded. The response includes the name, description and version.
+      responses:
+        200:
+          description: An array of releases
+          schema:
+            $ref: '#/definitions/ReleaseResponse'
+        404:
+          description: No releases found
+        500:
+          description: Server error
+  /releases/{name}:
+    get:
+      summary: Release Information
+      description: |
+        The Releases endpoint returns information about a release by name. The response includes the name, description and version.
+      parameters:
+        - name: name
+          in: path
+          description: Gets a release for a given name.
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of releases
+          schema:
+            $ref: '#/definitions/ReleaseResponse'
+        404:
+          description: No release found
+        500:
+          description: Server error
+definitions:
+    ReleaseResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - description
+        - version
