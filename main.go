@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/willis7/relenv/common"
-	"github.com/willis7/relenv/routers"
+	"github.com/willis7/Persistent-Dog/common"
+	"github.com/willis7/Persistent-Dog/routers"
 	"github.com/codegangsta/negroni"
 	"net/http"
 	"log"
