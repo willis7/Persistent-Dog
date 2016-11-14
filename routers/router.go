@@ -7,5 +7,6 @@ func InitRoutes() *mux.Router {
 	router := mux.NewRouter().StrictSlash(false)
 	// Routes for the Release entity
 	router = SetReleaseRoutes(router)
+	router = SetOpsRoutes(router)
 	return router
 }

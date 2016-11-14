@@ -18,7 +18,8 @@ func main() {
 	n.UseHandler(router)
 
 	server := &http.Server{
-		Addr:    common.AppConfig[Server],
+		Addr:    "localhost:8080",
+		//Addr: &common.AppConfig["Server"],
 		Handler: n,
 	}
 	log.Println("Listening...")

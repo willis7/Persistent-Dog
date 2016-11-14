@@ -2,6 +2,9 @@
 
 NAME = heimdall
 
+test:
+	go test -v $(shell go list ./... | grep -v /vendor/)
+
 install:
 	glide install
 

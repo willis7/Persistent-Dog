@@ -6,7 +6,7 @@ import (
 )
 
 // AppConfig holds the configuration values from config.json file
-var AppConfig map[string]string
+var AppConfig *map[string]string
 
 // Initialize AppConfig
 func initConfig() {
@@ -15,8 +15,10 @@ func initConfig() {
 
 
 func loadAppConfig() {
-	AppConfig, err := godotenv.Read()
+	conf, err := godotenv.Read()
 	if err != nil {
 		log.Fatalf("Failed to read dotenv: %v", err)
 	}
+
+	AppConfig = &conf
 }
