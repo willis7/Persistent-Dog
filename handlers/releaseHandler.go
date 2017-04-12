@@ -4,11 +4,15 @@ import (
 	"net/http"
 	"github.com/willis7/Persistent-Dog/models"
 	"encoding/json"
+	"github.com/gorilla/mux"
+	"github.com/willis7/Persistent-Dog/data"
+	"github.com/willis7/Persistent-Dog/common"
+	"gopkg.in/mgo.v2"
 )
 
 var releaseStore = []models.Release{}
 
-// Handler for HTTP Post - "/releases/"
+// CreateRelease is handler for HTTP Post - "/releases/"
 // Creates a new Release document
 func CreateRelease(w http.ResponseWriter, r *http.Request) {
 	var release models.Release
@@ -31,7 +35,7 @@ func CreateRelease(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-// Handler for HTTP Get - "/releases/"
+// GetReleases is a handler for HTTP Get - "/releases/"
 // Returns a list of Release documents
 func GetReleases(w http.ResponseWriter, r *http.Request) {
 	releases, err := json.Marshal(releaseStore)
@@ -45,12 +49,50 @@ func GetReleases(w http.ResponseWriter, r *http.Request) {
 	w.Write(releases)
 }
 
-// Handler for HTTP Get - "/releases/{id}"
-// Returns a single Release document by id
+// GetReleaseById is a handler for HTTP Get - "/releases/{id}"
+// Returns a single Release document sourced by id
 func GetReleaseById(w http.ResponseWriter, r *http.Request) {
+	// Get id from the incoming url
+	vars := mux.Vars(r)
+	id := vars["id"]
+	context := handlers.NewContext()
+	defer context.Close()
 
+	c := context.DbCollection("releases")
+	repo := &data.ReleaseRepository{c}
+	release, err := repo.GetById(id)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		} else {
+			common.DisplayAppError(
+				w,
+				err,
+				"An unexpected error has occurred",
+				http.StatusInternalServerError,
+			)
+			return
+		}
+	}
+
+	if j, err := json.Marshal(release); err != nil {
+		common.DisplayAppError(
+			w,
+			err,
+			"An unexpected error has occurred",
+			http.StatusInternalServerError,
+		)
+		return
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(j)
+	}
 }
 
+// UpdateRelease is a handler for HTTP Put - "/releases/{id}"
+// Updates a single Release document sourced by id
 func UpdateRelease(w http.ResponseWriter, r *http.Request) {
 
 }

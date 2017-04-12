@@ -1,0 +1,7 @@
+{
+    "Server": "localhost:8080",
+    "MongoDBHost": "database",
+    "DBUser":,
+    "DBPwd":,
+    "Database": "releases"
+}

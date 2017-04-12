@@ -6,3 +6,4 @@ import:
   version: ~0.2.0
 - package: github.com/joho/godotenv
   version: ~1.0.0
+- package: gopkg.in/mgo.v2

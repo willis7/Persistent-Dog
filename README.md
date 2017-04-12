@@ -13,3 +13,13 @@ RESTful API for tracking software releases.
  
 Project name generator:
 http://online-generator.com/name-generator/project-name-generator.php
+
+### Architectue
+
+Here's how the application is structured.
+
+* **common**: Implements some utility functions and provides initialization logic for the application
+* **handlers**: Implements the application’s application handlers
+* **data**: Implements the persistence logic with the MongoDB database
+* **models**: Describes the data model of the application
+* **routers**: Implements the HTTP request routers for the RESTful API
